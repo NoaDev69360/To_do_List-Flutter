@@ -1,46 +1,54 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-      appBar: AppBar(
-        title: Text('Todo'),
-      ),
-      body: MyWidget(),
-    ),
-  ));
-}
+void main() => runApp(const ListTileApp());
 
-class MyWidget extends StatelessWidget {
+class ListTileApp extends StatelessWidget {
+  const ListTileApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: EdgeInsets.all(8.0),
-            child: Text(
-              'Liste 1',
-              style: TextStyle(fontSize: 24, color: Colors.black),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(8.0),
-            child: Text(
-              'Liste 2',
-              style: TextStyle(fontSize: 24, color: Colors.black),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(8.0),
-            child: Text(
-              'Liste 3',
-              style: TextStyle(fontSize: 24, color: Colors.black),
-            ),
-          ),
-        ],
+    return MaterialApp(
+      theme: ThemeData(
+        listTileTheme: const ListTileThemeData(
+          textColor: Colors.white,
+        ),
+        useMaterial3: true,
+      ),
+      home: const ListTileExample(),
+    );
+  }
+}
+
+class ListTileExample extends StatefulWidget {
+  const ListTileExample({super.key});
+
+  @override
+  State<ListTileExample> createState() => _ListTileExampleState();
+}
+
+class _ListTileExampleState extends State<ListTileExample> {
+  List<String> items = ['Liste 1', 'Liste 2', 'Liste 3'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('To do List')),
+      body: Align(
+        alignment: Alignment.topLeft,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: items.map((item) {
+            return ListTile(
+              title: Text(item),
+              tileColor: Colors.cyan,
+              onTap: () {
+                setState(() {
+                  items.remove(item);
+                });
+              },
+            );
+          }).toList(),
+        ),
       ),
     );
   }
